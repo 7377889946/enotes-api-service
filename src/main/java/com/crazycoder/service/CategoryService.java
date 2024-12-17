@@ -2,11 +2,14 @@ package com.crazycoder.service;
 
 import java.util.List;
 
+import com.crazycoder.dto.CategoryDto;
+import com.crazycoder.dto.CategoryResponse;
 import com.crazycoder.model.Category;
 
 public interface CategoryService {
 
-	public Boolean saveCategory(Category category);
-	public List<Category> getAllCategory();
+	public Boolean saveCategory(CategoryDto categoryDto);
+	public List<CategoryDto> getAllCategory();
+	public List<CategoryResponse> getActiveCategory();
 	
 }
