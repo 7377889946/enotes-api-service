@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.crazycoder.dto.CategoryDto;
+import com.crazycoder.dto.CategoryResponse;
 import com.crazycoder.model.Category;
 import com.crazycoder.service.CategoryService;
 
@@ -24,8 +26,8 @@ public class CategoryController {
 	
 	
 	@PostMapping("/save-category")
-	 public ResponseEntity<?> saveCategory(@RequestBody Category category){
-		Boolean savedCategory=categoryService.saveCategory(category);
+	 public ResponseEntity<?> saveCategory(@RequestBody CategoryDto categoryDto){
+		Boolean savedCategory=categoryService.saveCategory(categoryDto);
 		
 		if(savedCategory) {
 			return new ResponseEntity<>("saved Successfully",HttpStatus.OK);
@@ -33,10 +35,21 @@ public class CategoryController {
 		  return new ResponseEntity<>("Not saved",HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
 	}
-	
+
 	@GetMapping("/category")
 	public ResponseEntity<?> getAllCategory(){
-		List<Category> categories=categoryService.getAllCategory();
+		List<CategoryDto> categories=categoryService.getAllCategory();
+		if(org.springframework.util.CollectionUtils.isEmpty(categories)) {
+			return ResponseEntity.noContent().build();
+		} else {
+			return new ResponseEntity<>(categories,HttpStatus.OK);
+		}
+	}
+	
+	
+	@GetMapping("/active-category")
+	public ResponseEntity<?> getActiveCategory(){
+		List<CategoryResponse> categories=categoryService.getActiveCategory();
 		if(org.springframework.util.CollectionUtils.isEmpty(categories)) {
 			return ResponseEntity.noContent().build();
 		} else {
