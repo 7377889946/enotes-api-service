@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.crazycoder.dto.CategoryDto;
 import com.crazycoder.dto.CategoryResponse;
+import com.crazycoder.exception.ResourceNotFoundException;
 import com.crazycoder.model.Category;
 import com.crazycoder.service.CategoryService;
 
@@ -41,6 +41,7 @@ public class CategoryController {
 
 	@GetMapping("/")
 	public ResponseEntity<?> getAllCategory(){
+	
 		List<CategoryDto> categories=categoryService.getAllCategory();
 		if(org.springframework.util.CollectionUtils.isEmpty(categories)) {
 			return ResponseEntity.noContent().build();
@@ -62,8 +63,8 @@ public class CategoryController {
 	
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getCategoryDetailsById(@PathVariable Integer id){
-		CategoryDto categoryDto=categoryService.getCategoryById(id);
+	public ResponseEntity<?> getCategoryDetailsById(@PathVariable Integer id) throws ResourceNotFoundException{
+		CategoryDto categoryDto=categoryService.getCategoryById(id); 
 		if(ObjectUtils.isEmpty(categoryDto)) {
 			return new ResponseEntity<>("Object Not Found with Id :- "+id,HttpStatus.NOT_FOUND);
 		} else {
