@@ -1,7 +1,5 @@
 package com.crazycoder.dto;
-
 import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,4 +19,5 @@ public class CategoryDto {
 	private Date createdOn;
 	private Integer updatedBy;
 	private Date updatedOn;
+	
 }

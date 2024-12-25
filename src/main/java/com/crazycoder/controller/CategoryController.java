@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.crazycoder.dto.CategoryDto;
 import com.crazycoder.dto.CategoryResponse;
 import com.crazycoder.exception.ResourceNotFoundException;
-import com.crazycoder.model.Category;
+import com.crazycoder.exception.dtoValidationException;
 import com.crazycoder.service.CategoryService;
 
 @RestController
@@ -29,7 +29,7 @@ public class CategoryController {
 	
 	
 	@PostMapping("/save-category")
-	 public ResponseEntity<?> saveCategory(@RequestBody CategoryDto categoryDto){
+	 public ResponseEntity<?> saveCategory(@RequestBody CategoryDto categoryDto) throws dtoValidationException{
 		Boolean savedCategory=categoryService.saveCategory(categoryDto);
 		
 		if(savedCategory) {

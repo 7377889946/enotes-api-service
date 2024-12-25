@@ -1,15 +1,15 @@
 package com.crazycoder.service;
 
 import java.util.List;
-
 import com.crazycoder.dto.CategoryDto;
 import com.crazycoder.dto.CategoryResponse;
 import com.crazycoder.exception.ResourceNotFoundException;
-import com.crazycoder.model.Category;
+import com.crazycoder.exception.dtoValidationException;
+
 
 public interface CategoryService {
 
-	public Boolean saveCategory(CategoryDto categoryDto);
+	public Boolean saveCategory(CategoryDto categoryDto) throws dtoValidationException;
 	public List<CategoryDto> getAllCategory();
 	public List<CategoryResponse> getActiveCategory();
 	public CategoryDto getCategoryById(Integer id) throws ResourceNotFoundException;

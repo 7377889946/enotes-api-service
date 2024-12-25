@@ -11,9 +11,11 @@ import org.springframework.util.ObjectUtils;
 import com.crazycoder.dto.CategoryDto;
 import com.crazycoder.dto.CategoryResponse;
 import com.crazycoder.exception.ResourceNotFoundException;
+import com.crazycoder.exception.dtoValidationException;
 import com.crazycoder.model.Category;
 import com.crazycoder.repository.CategoryRepository;
 import com.crazycoder.service.CategoryService;
+import com.crazycoder.util.Validation;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -24,9 +26,15 @@ public class CategoryServiceImpl implements CategoryService {
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Autowired
+	private Validation validation;
+	
 	@Override
-	public Boolean saveCategory(CategoryDto categoryDto) {
+	public Boolean saveCategory(CategoryDto categoryDto) throws dtoValidationException {
+		//Validation cheking 
+		validation.categoryDtoValidation(categoryDto);
 		
+		//map categoryDto to original Category class
 		Category category=modelMapper.map(categoryDto, Category.class);
 		
 		if(ObjectUtils.isEmpty(category.getId())) {
