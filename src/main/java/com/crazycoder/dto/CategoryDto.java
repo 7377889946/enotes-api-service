@@ -17,7 +17,7 @@ public class CategoryDto {
 	private Boolean isActive;
 	private Integer createdBy;
 	private Date createdOn;
-	private Integer updatedBy;
+	private Integer updatedBy; 
 	private Date updatedOn;
 	
 }

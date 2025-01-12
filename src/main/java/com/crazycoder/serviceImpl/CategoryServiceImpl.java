@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import com.crazycoder.dto.CategoryDto;
 import com.crazycoder.dto.CategoryResponse;
+import com.crazycoder.exception.ExitCategoryException;
 import com.crazycoder.exception.ResourceNotFoundException;
 import com.crazycoder.exception.dtoValidationException;
 import com.crazycoder.model.Category;
@@ -29,17 +30,26 @@ public class CategoryServiceImpl implements CategoryService {
 	private Validation validation;
 	
 	@Override
-	public Boolean saveCategory(CategoryDto categoryDto) throws dtoValidationException {
+	public Boolean saveCategory(CategoryDto categoryDto) throws dtoValidationException, ExitCategoryException {
 		//Validation cheking 
 		validation.categoryDtoValidation(categoryDto);
+		
+		//Exist category by name exception
+		Boolean exitCategory=categoryRepository.existsByName(categoryDto.getName().trim());
+		
+		if(exitCategory) {
+			throw new ExitCategoryException("Category alerady Exist in database");
+		}
+	
 		
 		//map categoryDto to original Category class
 		Category category=modelMapper.map(categoryDto, Category.class);
 		
 		if(ObjectUtils.isEmpty(category.getId())) {
 			category.setIsDeleted(false);
-			category.setCreatedBy(1);
-			category.setCreatedOn(new Date());
+			/*
+			 * category.setCreatedBy(1); category.setCreatedOn(new Date());
+			 */
 		} else {
 			Boolean status=updateCategory(category);
 			if(status) {
@@ -67,8 +77,9 @@ public class CategoryServiceImpl implements CategoryService {
 		  category.setCreatedBy(exCategory.getCreatedBy());
 		  category.setCreatedOn(exCategory.getCreatedOn());
 		  category.setIsDeleted(exCategory.getIsDeleted());
-		  category.setUpdatedBy(1);
-		  category.setUpdatedOn(new Date());
+			/*
+			 * category.setUpdatedBy(1); category.setUpdatedOn(new Date());
+			 */
 		  return true;
 	  } else {
 		  return false;
