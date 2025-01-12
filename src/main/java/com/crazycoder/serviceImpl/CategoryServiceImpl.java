@@ -2,7 +2,6 @@ package com.crazycoder.serviceImpl;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.catalina.connector.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,5 +124,4 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		return false;
 	}
-
 }
