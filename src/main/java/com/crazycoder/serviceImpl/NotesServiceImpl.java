@@ -1,20 +1,21 @@
 package com.crazycoder.serviceImpl;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.crazycoder.dto.NotesDto;
 import com.crazycoder.exception.ResourceNotFoundException;
 import com.crazycoder.model.FileDetails;
@@ -130,5 +131,20 @@ public class NotesServiceImpl implements NotesService{
 	@Override
 	public List<NotesDto> getAllNotes() {
        return notesRepository.findAll().stream().map(note -> modelMapper.map(note, NotesDto.class)).toList();              
+	}
+
+	@Override
+	public byte[] downloadFile(FileDetails fileDetails) throws ResourceNotFoundException, IOException {
+		
+		InputStream inputStream=new FileInputStream(fileDetails.getPath());
+		
+		return StreamUtils.copyToByteArray(inputStream);
+		
+	}
+
+	@Override
+	public FileDetails getFileDetils(Integer id) throws ResourceNotFoundException {
+		FileDetails fileDetails = fileDetailsRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("File not Found in database"));
+		return fileDetails;
 	} 
 }
