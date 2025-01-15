@@ -12,10 +12,15 @@ import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.crazycoder.dto.NoteByPageDto;
 import com.crazycoder.dto.NotesDto;
 import com.crazycoder.exception.ResourceNotFoundException;
 import com.crazycoder.model.FileDetails;
@@ -146,5 +151,25 @@ public class NotesServiceImpl implements NotesService{
 	public FileDetails getFileDetils(Integer id) throws ResourceNotFoundException {
 		FileDetails fileDetails = fileDetailsRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("File not Found in database"));
 		return fileDetails;
-	} 
+	}
+
+	public NoteByPageDto getAllNotesByUser(Integer user_id,Integer pageNo, Integer pageSize ) {
+		Pageable pageable=PageRequest.of(pageNo, pageSize);
+		Page<Notes> listOfNotes = notesRepository.findByCreatedBy(user_id,pageable);
+		
+		List<NotesDto> notesDtos = listOfNotes.stream().map(note -> modelMapper.map(note, NotesDto.class)).toList();
+		
+		NoteByPageDto notes = NoteByPageDto.builder()
+				 .notesDtos(notesDtos)
+				 .pageNo(listOfNotes.getNumber())
+				 .pageSize(listOfNotes.getSize())
+				 .totalElements(listOfNotes.getTotalElements())
+				 .totalPages(listOfNotes.getTotalPages())
+				 .isFirst(listOfNotes.isFirst())
+				 .isLast(listOfNotes.isLast())
+				 .build();
+		return notes;
+	}
+
+	
 }

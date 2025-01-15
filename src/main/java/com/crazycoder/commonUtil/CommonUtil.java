@@ -48,8 +48,6 @@ public class CommonUtil {
         return genericResponse.create();
 	}
 
-	
-	
 	public static String getContentType(String originalFileName) {
 		String extension= FilenameUtils.getExtension(originalFileName);
 		
@@ -69,11 +67,8 @@ public class CommonUtil {
 	        return "application/octet-stream";
 			 
 		}
-		
-		
+	
 	}
 	 
 	
-	
-
 }

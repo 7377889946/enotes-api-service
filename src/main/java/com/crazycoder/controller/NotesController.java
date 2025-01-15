@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.crazycoder.commonUtil.CommonUtil;
+import com.crazycoder.dto.NoteByPageDto;
 import com.crazycoder.dto.NotesDto;
 import com.crazycoder.exception.ResourceNotFoundException;
 import com.crazycoder.model.FileDetails;
@@ -55,7 +56,7 @@ public class NotesController {
 		return ResponseEntity.ok().headers(headers).body(fileAsByteArray);
 	}
 
-	@GetMapping
+	@GetMapping("/")
     public ResponseEntity<?> getAllNotes(){
 		List<NotesDto> notesDtos=notesService.getAllNotes();
 		
@@ -64,6 +65,23 @@ public class NotesController {
 		} else {
 			   return CommonUtil.createBuildResponse(notesDtos, HttpStatus.OK);
 		}
+	}
+	
+	@GetMapping("/user-notes")
+    public ResponseEntity<?> getAllNotesByUser(
+    		@RequestParam(name="pageNo",defaultValue = "0") Integer pageNo,
+    		@RequestParam(name="pageSize",defaultValue = "10") Integer pageSize
+    		){
+		Integer user_id=1;
+		NoteByPageDto notesDtos=notesService.getAllNotesByUser(user_id,pageNo,pageSize);
+		
+//		if() {
+//		       return  ResponseEntity.noContent().build();
+//		} else {
+//			   return CommonUtil.createBuildResponse(notesDtos, HttpStatus.OK);
+//		}
+//		
+		return CommonUtil.createBuildResponse(notesDtos, HttpStatus.OK);
 	}
 	
 	
