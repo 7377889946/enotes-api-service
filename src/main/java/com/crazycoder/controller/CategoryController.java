@@ -29,7 +29,6 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 	
-	
 	@PostMapping("/save-category")
 	 public ResponseEntity<?> saveCategory(@RequestBody CategoryDto categoryDto) throws dtoValidationException{
 		Boolean savedCategory=categoryService.saveCategory(categoryDto);
@@ -39,7 +38,7 @@ public class CategoryController {
 //			return new ResponseEntity<>("saved Successfully",HttpStatus.OK);
 		} else{
 			return CommonUtil.createErrorResponseMessage("Not saved", HttpStatus.INTERNAL_SERVER_ERROR);
-//		  return new ResponseEntity<>("Not saved",HttpStatus.INTERNAL_SERVER_ERROR);
+//		    return new ResponseEntity<>("Not saved",HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
 	}
 
@@ -51,10 +50,8 @@ public class CategoryController {
 			return ResponseEntity.noContent().build();
 		} else {
 			return CommonUtil.createBuildResponse(categories, HttpStatus.OK);
-//			return new ResponseEntity<>(categories,HttpStatus.OK);
 		}
 	}
-	
 	
 	@GetMapping("/active")
 	public ResponseEntity<?> getActiveCategory(){
@@ -67,7 +64,6 @@ public class CategoryController {
 		}
 	}
 	
-	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getCategoryDetailsById(@PathVariable Integer id) throws ResourceNotFoundException{
 		CategoryDto categoryDto=categoryService.getCategoryById(id); 
@@ -75,10 +71,8 @@ public class CategoryController {
 			return CommonUtil.createErrorResponseMessage("Object Not Found with Id :- "+id, HttpStatus.NOT_FOUND);
 		} else {
 			return CommonUtil.createBuildResponse(categoryDto, HttpStatus.OK);
-			
 		}
 	}
-	
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteCategoryById(@PathVariable Integer id){
@@ -86,11 +80,11 @@ public class CategoryController {
 		
 		if(deleted) {
 			return CommonUtil.createBuildResponseMessage("Category Deleted Successfully", HttpStatus.OK);
-			
 		} else {
 			return CommonUtil.createErrorResponseMessage("Category is not found in database", HttpStatus.INTERNAL_SERVER_ERROR);
-			
 		}
 	}
-
+	
+	
+	
 }

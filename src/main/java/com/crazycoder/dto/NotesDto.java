@@ -1,5 +1,6 @@
 package com.crazycoder.dto;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +22,8 @@ public class NotesDto {
 	private Integer updatedBy;
 	private Date updatedOn;
 	private FileDto filesDetails;
+    private Boolean isDeleted;
+	private LocalDateTime deletedOn;
 	
 	//FileDto inner class
 	@NoArgsConstructor

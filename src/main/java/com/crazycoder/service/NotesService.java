@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.crazycoder.dto.FavoriteNotesDto;
 import com.crazycoder.dto.NoteByPageDto;
 import com.crazycoder.dto.NotesDto;
 import com.crazycoder.exception.ResourceNotFoundException;
@@ -19,4 +20,16 @@ public interface NotesService {
 	public byte[] downloadFile(FileDetails fileDetails) throws ResourceNotFoundException, FileNotFoundException, IOException;
 	public FileDetails getFileDetils(Integer id) throws ResourceNotFoundException;
 	public NoteByPageDto getAllNotesByUser(Integer user_id, Integer pageNo, Integer pageSize);
+    public void softDeleteNotes(Integer id) throws ResourceNotFoundException;
+	public void restoreNotes(Integer id) throws ResourceNotFoundException; 
+	public List<NotesDto> getUserRecycleBinNotes(Integer userId);
+	public void hardDeleteNotes(Integer id) throws ResourceNotFoundException;
+	public void recycleBinAllDeleteNotes(Integer id);
+	
+	public void favoritesNotes(Integer NotesId) throws ResourceNotFoundException;
+	public void unfavoriteNotes(Integer NotesId) throws ResourceNotFoundException;
+	public List<FavoriteNotesDto> getFavoriteNoteByUser();
+	public Boolean copyNotes(Integer id) throws ResourceNotFoundException;
+	
+	 
 }

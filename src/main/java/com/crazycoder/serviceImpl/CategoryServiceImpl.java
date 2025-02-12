@@ -59,7 +59,6 @@ public class CategoryServiceImpl implements CategoryService {
 			}
 		}
 		
-		
 		Category savedCategory=categoryRepository.save(category);
 		if(ObjectUtils.isEmpty(savedCategory)) {
 			return false;
